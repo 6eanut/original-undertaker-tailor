@@ -40,7 +40,7 @@ endif
 # local Puma
 
 ifneq ($(LOCALPUMA),)
-CXXFLAGS += -Wno-unused-local-typedefs -Wno-unused-parameter
+CXXFLAGS += -Wno-unused-local-typedefs -fpermissive -Wno-unused-parameter
 CPPFLAGS += -I$(LOCALPUMA)/include -I$(LOCALPUMA)/extern
 PUMALIB = $(LOCALPUMA)/lib/linux-release/libPuma.a
 else

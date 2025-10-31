@@ -71,7 +71,7 @@ endif
 
 ifneq ($(LOCALPUMA),)
 $(PUMALIB):
-	CPPFLAGS="-Wno-unused-local-typedefs -Wno-unused-parameter" $(MAKE) -s -C $(LOCALPUMA) compile
+	CPPFLAGS="-Wno-unused-local-typedefs -fpermissive -Wno-unused-parameter" $(MAKE) -s -C $(LOCALPUMA) compile
 
 clean-Puma:
 	$(MAKE) -C $(LOCALPUMA) libclean
