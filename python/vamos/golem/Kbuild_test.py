@@ -85,9 +85,9 @@ class testTools(t.TestCase):
         for needle in ('make', 'allnoconfig', ' ARCH=i386', 'SUBARCH=i386'):
             self.assertIn(needle, cmd)
 
-        (cmd, rc) = call_linux_makefile('silentoldconfig', dryrun=True)
+        (cmd, rc) = call_linux_makefile('olddefconfig', dryrun=True)
         self.assertEqual(rc, 0)
-        for needle in ('make', 'silentoldconfig', 'ARCH=i386', 'SUBARCH=i386'):
+        for needle in ('make', 'olddefconfig', 'ARCH=i386', 'SUBARCH=i386'):
             self.assertIn(needle, cmd)
 
         (cmd, rc) = call_linux_makefile('', filename='./arch/x86/init.o', dryrun=True)

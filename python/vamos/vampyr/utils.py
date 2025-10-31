@@ -33,7 +33,7 @@ class ExpansionError(RuntimeError):
 
 
 class ExpansionSanityCheckError(ExpansionError):
-    """ Internal kernel config sanity checks failed, like `make silentoldconfig` """
+    """ Internal kernel config sanity checks failed, like `make olddefconfig` """
     pass
 
 

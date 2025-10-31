@@ -457,7 +457,7 @@ class KbuildBuildFramework(BuildFramework):
             tools.execute("sed '%s' .config > allyes.config" % sed_commands)
             self.call_makefile("allyesconfig")
         else:
-            self.call_makefile("silentoldconfig")
+            self.call_makefile("olddefconfig")
 
 
 class LinuxBuildFramework(KbuildBuildFramework):

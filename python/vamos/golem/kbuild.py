@@ -109,11 +109,11 @@ def apply_configuration(arch=None, subarch=None, filename=None):
     # and hex items. Both are fine with a setting of '0'
     execute('sed -i s,=$,=0,g .config', failok=False)
     try:
-        call_linux_makefile('silentoldconfig', arch=arch, subarch=subarch,
+        call_linux_makefile('olddefconfig', arch=arch, subarch=subarch,
                             failok=False)
     except CommandFailed as e:
         if e.returncode == 2:
-            raise TreeNotConfigured("target 'silentoldconfig' failed")
+            raise TreeNotConfigured("target 'olddefconfig' failed")
         else:
             raise
 

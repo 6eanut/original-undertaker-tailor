@@ -22,7 +22,7 @@ static void check_conf(struct menu *menu);
 
 enum input_mode {
 	oldaskconfig,
-	silentoldconfig,
+	olddefconfig,
 	oldconfig,
 	allnoconfig,
 	allyesconfig,
@@ -100,7 +100,7 @@ static int conf_askvalue(struct symbol *sym, const char *def)
 
 	switch (input_mode) {
 	case oldconfig:
-	case silentoldconfig:
+	case olddefconfig:
 		if (sym_has_value(sym)) {
 			printf("%s\n", def);
 			return 0;
@@ -297,7 +297,7 @@ static int conf_choice(struct menu *menu)
 		printf("]: ");
 		switch (input_mode) {
 		case oldconfig:
-		case silentoldconfig:
+		case olddefconfig:
 			if (!is_new) {
 				cnt = def;
 				printf("%d\n", cnt);
@@ -362,7 +362,7 @@ static void conf(struct menu *menu)
 
 		switch (prop->type) {
 		case P_MENU:
-			if ((input_mode == silentoldconfig ||
+			if ((input_mode == olddefconfig ||
 			     input_mode == listnewconfig ||
 			     input_mode == oldnoconfig) &&
 			    rootEntry != menu) {
@@ -443,7 +443,7 @@ static void check_conf(struct menu *menu)
 static struct option long_opts[] = {
 	{"oldaskconfig",    no_argument,       NULL, oldaskconfig},
 	{"oldconfig",       no_argument,       NULL, oldconfig},
-	{"silentoldconfig", no_argument,       NULL, silentoldconfig},
+	{"olddefconfig", no_argument,       NULL, olddefconfig},
 	{"defconfig",       optional_argument, NULL, defconfig},
 	{"savedefconfig",   required_argument, NULL, savedefconfig},
 	{"allnoconfig",     no_argument,       NULL, allnoconfig},
@@ -469,7 +469,7 @@ int main(int ac, char **av)
 	while ((opt = getopt_long(ac, av, "", long_opts, NULL)) != -1) {
 		input_mode = (enum input_mode)opt;
 		switch (opt) {
-		case silentoldconfig:
+		case olddefconfig:
 			sync_kconfig = 1;
 			break;
 		case defconfig:
@@ -529,7 +529,7 @@ int main(int ac, char **av)
 		}
 		break;
 	case savedefconfig:
-	case silentoldconfig:
+	case olddefconfig:
 	case oldaskconfig:
 	case oldconfig:
 	case listnewconfig:
@@ -599,12 +599,12 @@ int main(int ac, char **av)
 	case oldaskconfig:
 		rootEntry = &rootmenu;
 		conf(&rootmenu);
-		input_mode = silentoldconfig;
+		input_mode = olddefconfig;
 		/* fall through */
 	case oldconfig:
 	case listnewconfig:
 	case oldnoconfig:
-	case silentoldconfig:
+	case olddefconfig:
 		/* Update until a loop caused no more changes */
 		do {
 			conf_cnt = 0;
@@ -616,7 +616,7 @@ int main(int ac, char **av)
 	}
 
 	if (sync_kconfig) {
-		/* silentoldconfig is used during the build so we shall update autoconf.
+		/* olddefconfig is used during the build so we shall update autoconf.
 		 * All other commands are only used to generate a config.
 		 */
 		if (conf_get_changed() && conf_write(NULL)) {
